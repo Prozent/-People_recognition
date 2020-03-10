@@ -28,15 +28,17 @@ while True:
     t_l=poisk_person(frame)
     for iterat in t_l:
         trak=poisk_trak(traks,iterat[0]) #поиск траков плохо ведёться
-        print(trak)
+        #print(trak)
         if trak is None:
             trak = Trak()
             trak.square=iterat[0]
             trak.landmarki=iterat[1]
         trak.square=iterat[0]
+        image_sqr=np.array(frame)
+        image_sqr = cv2.rectangle(image_sqr, (iterat[0].left(),iterat[0].top()),(iterat[0].right(),iterat[0].bottom()), (225,255,0))
         trak.time=time.time()
         if trak.id !=None:
-            print()
+           # print()
             #if trak.id is 0: #очень часто незнает, разобраться надо
              #   print('Mi ego ne znaem')
             #else:
@@ -48,9 +50,13 @@ while True:
         diskriptor = facerec.compute_face_descriptor(frame,iterat[1]) #type:dlib.vector
         #print(diskriptor)
         id=poisk_id(baza_danih,diskriptor,MIN_DISTANCE)
+
         if id is not None:
+            print('Тут возможно : ', baza_danih[id][0])
             trak.id=id
         else:
+            print('Тут возможно : тот кого мы незнаем')
+
             trak.id=0
         traks.append(trak)
     old_traks = []
@@ -64,10 +70,11 @@ while True:
         for i in old_traks:
             del traks[i]
             continue
-        print(len(traks), 'Tut collicestco tacof posle delite')
+        #print(len(traks), 'Tut collicestco tacof posle delite')
     print(len(traks))
 
     cv2.imshow('Video', frame)
+    cv2.imshow('Vide1o', image_sqr)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 #video_capture.release() закрывает видео с камеры

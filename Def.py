@@ -44,7 +44,7 @@ def poisk_trak(traks, square)->Tuple[List[Trak], dlib.rectangle]:
     return None
 
 def load_persons():
-	p_files = os.listdir('/home/kirill/my-project-env/person/')  #type: List[str]
+	p_files = os.listdir('person/')  #type: List[str]
 	p_names = list()  #type: List[str]
 	p_descriptors = list()  #type: List[numpy.array]
 	os.chdir('person')
